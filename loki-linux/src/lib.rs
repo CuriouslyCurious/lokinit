@@ -8,7 +8,9 @@ use dl::{dlopen, dlsym, get_dlerror, RTLD_NOW};
 
 pub mod dl;
 pub mod locale;
+// #[cfg(feature = "wayland")]
 pub mod wayland;
+#[cfg(feature = "x11")]
 pub mod x11;
 
 /// A wrapper for all the dl methods
@@ -77,9 +79,9 @@ macro_rules! library {
 
         impl $lib {
             /// Instantiates this library.
-            /// 
+            ///
             /// # Safety
-            /// 
+            ///
             /// This method calls some `dlopen` functions through FFI.
             pub unsafe fn new() -> Result<Self, $crate::LoadingError> {
                 let lib = $crate::Library::new($name)
